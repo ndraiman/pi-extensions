@@ -48,17 +48,13 @@ function updateStatus(ctx: ExtensionContext, enabled: boolean): void {
     return;
   }
 
-  if (!enabled) {
+  if (!enabled || !isSupportedModel(ctx)) {
     ctx.ui.setStatus("codex-fast", undefined);
     return;
   }
 
   const theme = ctx.ui.theme;
-  const value = isSupportedModel(ctx)
-    ? theme.fg("accent", "fast")
-    : theme.fg("warning", "fast (unsupported)");
-
-  ctx.ui.setStatus("codex-fast", value);
+  ctx.ui.setStatus("codex-fast", theme.fg("accent", "fast"));
 }
 
 function formatUnsupportedMessage(ctx: ExtensionContext): string {
