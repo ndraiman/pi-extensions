@@ -3,7 +3,12 @@ import { join } from "node:path";
 import { getAgentDir, type ExtensionAPI, type ExtensionContext } from "@mariozechner/pi-coding-agent";
 
 const STATE_PATH = join(getAgentDir(), "codex-fast.json");
-const SUPPORTED_MODELS = new Set(["openai/gpt-5.4", "openai-codex/gpt-5.4"]);
+const SUPPORTED_MODELS = new Set([
+  "openai/gpt-5.4",
+  "openai-codex/gpt-5.4",
+  "openai/gpt-5.5",
+  "openai-codex/gpt-5.5",
+]);
 const PRIORITY_SERVICE_TIER = "priority";
 
 type FastState = {
@@ -66,7 +71,7 @@ export default function codexFast(pi: ExtensionAPI): void {
   let enabled = loadFastState();
 
   pi.registerCommand("fast", {
-    description: "Toggle Codex Fast mode for supported OpenAI GPT-5.4 models",
+    description: "Toggle Codex Fast mode for supported OpenAI GPT-5.4/5.5 models",
     handler: async (args, ctx) => {
       const action = args.trim().toLowerCase();
       const current = getModelKey(ctx) ?? "none";
